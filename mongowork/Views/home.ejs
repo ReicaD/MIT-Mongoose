@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<%- include('../Views/home.ejs') %>
+ 
+  <body>
+
+    <%- include('../views/nav.ejs') %>
+    <!-- <h3>Get Rich Slowly</h3> -->
+
+    <!-- <nav>
+      <div class="site-tittle">
+        <a href="/"><h1>Blog For Money</h1></a>
+        <p>Complex financial concepts.</p>
+      </div>
+      <ul>
+        <li><a href="/">Blogs</a></li>
+        <li><a href="/about">about</a></li>
+        <li><a href="/blogs/create">New Blog</a></li>
+      </ul>
+      <!-- <a href="/">Homepage</a>
+      <a href="/about">About page</a> -->
+    </nav> 
+    <div class="blogs Content">
+      <h2>Get Rich Slowly</h2>
+      <!-- //checking out the length of the blog content in the app.js file using if statement with ejs -->
+      <% if (blogs.length > 0 ){ %> 
+        <% blogs.forEach(blog => { %>
+      <h3 class = "tittle"> <%= blog.tittle%></h3>
+      <p class= "snippet"><%=blog.snippet%></p>
+
+      <% }) %> 
+      <% } else { %>
+        <P>no Blogs To display</P>
+        <% } %>
+         
+
+    </div>
+    <%- include('../views/footer.ejs') %>
+  </body>
+</html>

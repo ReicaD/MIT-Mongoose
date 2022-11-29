@@ -1,0 +1,18 @@
+</nav> 
+<div class="blogs Content">
+  <h2>Daily schedule</h2>
+  <!-- //checking out the length of the blog content in the app.js file using if statement with ejs -->
+  <% if (blogs.length > 0 ){ %> 
+    <% blogs.forEach(blog => { %>
+  <h3 class = "tittle"> <%= blog.tittle%></h3>
+  <p class= "snippet"><%=blog.snippet%></p>
+
+  <% }) %> 
+  <% } else { %>
+    <P>no Blogs To display</P>
+    <% } %>
+     
+
+</div>
+<%- include('../views/footer.ejs') %>
+</body>

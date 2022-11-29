@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<%- include('../views/head.ejs') %>
+  <body>
+    <h3>Get Rich Slowly</h3>
+
+    <%- include('../views/nav.ejs')%>
+
+    <nav>
+      <div class="site-tittle">
+        <a href="/"><h1>Blog For Money</h1></a>
+        <p>Complex financial concepts.</p>
+      </div>
+      <ul>
+        <li><a href="/">Blogs</a></li>
+        <li><a href="/about">about</a></li>
+        <li><a href="/blogs/create">New Blog</a></li>
+      </ul>
+       <a href="/">Homepage</a>
+      <a href="/about">About page</a> -->
+    </nav>
+    <div class="create-blog content">
+      <form>
+        <label for="tittle">Blog tittle:</label>
+        <input type="text" id="tittle" required />
+        <label for="snippet">Blog snippet:</label>
+        <input type="text" id="snippet" required />
+        <label for="people">Blog body:</label>
+        <textarea id="people" required></textarea>
+        <button>Submit</button>
+      </form>
+    </div>
+    <%- include('../views/footer.ejs') %>
+  </body>
+</html>
