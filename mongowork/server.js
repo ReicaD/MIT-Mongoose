@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const { db } = require("./models/blogs");
 const Blogs = require("./models/blogs");
+//const { db } = require("./models/users");
+const Users = require("./models/users");
 const { readdirSync } = require("fs");
 
 //requiring .env to save environmental variables
