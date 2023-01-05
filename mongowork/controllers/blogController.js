@@ -67,6 +67,29 @@ const removeBlogById = async (req, res) => {
   }
 };
 
+// Get blogs with series snippet
+const getSnippet = async (req, res) => {
+  try {
+    const snippet = await Blogs.find({ snippet: "Series" });
+    // console.log(snippet)
+    res.send(snippet).status(200);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500);
+  }
+};
+
+//returning limited querries
+const limitBlogs = async (req, res) => {
+  try {
+    const blogs = await Blogs.find().limit(2);
+    res.send(blogs).status(200);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500);
+  }
+};
+
 //GET MyBlog by ID - @
 // app.get("/get_blog_by_id", async (req, res) => {
 //   try {
@@ -93,4 +116,11 @@ const removeBlogById = async (req, res) => {
 //       { tittle: "All regulations", snippet: "See more" },
 //       { tittle: "See tricks", snippet: "About money life" },
 //     ]
-module.exports = { addBlog, allBlogs, removeBlogById, getSingleBlogById };
+module.exports = {
+  addBlog,
+  allBlogs,
+  removeBlogById,
+  getSingleBlogById,
+  getSnippet,
+  limitBlogs,
+};

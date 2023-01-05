@@ -4,12 +4,18 @@ const {
   allBlogs,
   removeBlogById,
   getSingleBlogById,
+  getSnippet,
+  limitBlogs,
 } = require("../controllers/blogController");
 const router = express.Router();
 
 router.post("/add-blogs", addBlog);
 
 router.get("/all-blogs", allBlogs);
+
+router.get("/limit-blogs", limitBlogs);
+
+router.get("/snippet/", getSnippet);
 
 router.get("/get-singleBlog/:id", getSingleBlogById);
 
