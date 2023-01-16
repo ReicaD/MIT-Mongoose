@@ -1,3 +1,4 @@
+const { db } = require("../models/blogs");
 const Blogs = require("../models/blogs");
 
 //POST added a new BLOG "/add-blogs"
@@ -9,6 +10,14 @@ const addBlog = (req, res) => {
     actors: req.body.actors,
     people: req.body.people,
   });
+  if (!users.title) res.status(404).json({ msg: "Please finn in title" });
+  if (!users.snippet) res.status(404).json({ msg: "Please fill in snippet" });
+  if (!users.actors) res.status(404).json({ msg: "Please fill  in actors" });
+  if (!users.people)
+    res.status(404).json({ msg: "Please fill in number of people" });
+
+  // console.log("please enter title.");
+  // res.json({ msg: "Please fill in the required fields" }).status(400);
 
   blogs
     .save()
@@ -19,6 +28,7 @@ const addBlog = (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+  //
 };
 
 // GET get all blogs
@@ -69,9 +79,14 @@ const removeBlogById = async (req, res) => {
 
 // Get blogs with series snippet
 const getSnippet = async (req, res) => {
+  // console.log("This is snippet ==>", req.query.snippet);
   try {
-    const snippet = await Blogs.find({ snippet: "Series" });
+    let snippetQuery = req.query.snippet;
+    const snippet = await Blogs.find({ snippet: snippetQuery });
     // console.log(snippet)
+    if (!snippet.length) {
+      res.send(`Sorry this is not here, try again`).res.status(404);
+    }
     res.send(snippet).status(200);
   } catch (error) {
     console.log(error.message);
@@ -81,14 +96,47 @@ const getSnippet = async (req, res) => {
 
 //returning limited querries
 const limitBlogs = async (req, res) => {
+  console.log(req.query.limit);
   try {
-    const blogs = await Blogs.find().limit(2);
+    let limit = req.query.limit;
+    const blogs = await Blogs.find().limit(limit);
     res.send(blogs).status(200);
   } catch (err) {
     console.log(err.message);
     res.status(500);
   }
 };
+
+const update_Blogs = async (req, res) => {
+  try {
+    // console.log(req.params.id)
+    console.log(req.body);
+    const blogs = await Blogs.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          people: req.body.people,
+          title: req.body.title,
+          snippet: req.body.snippet,
+          actors: req.body.actors,
+        },
+      },
+      { upsert: true }
+    );
+
+    // console.log(blogs);
+    res.send(blogs).status(200);
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+  }
+};
+
+// db.posts.updateOne(
+//   req.params.id,
+//   { $set: { body: req.actors.actors, date: Date() } },
+//   { upsert: true }
+// );
 
 //GET MyBlog by ID - @
 // app.get("/get_blog_by_id", async (req, res) => {
@@ -123,4 +171,5 @@ module.exports = {
   getSingleBlogById,
   getSnippet,
   limitBlogs,
+  update_Blogs,
 };

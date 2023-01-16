@@ -13,7 +13,7 @@ const blogSchema = new Schema(
       required: true,
     },
     people: {
-      type: String,
+      type: Number,
       required: true,
     },
     actors: {
