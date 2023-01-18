@@ -1,6 +1,6 @@
 const Users = require("../models/users");
 // this function is to import a validate helper function to be able to validate emails.
-const {validate} = require("../helpers/helper");
+const { validate } = require("../helpers/helper");
 
 //POST added a new BLOG "/add-blogs"
 
@@ -10,6 +10,7 @@ const AddUser = (req, res) => {
     age: req.body.age,
     email: req.body.email,
     bio: req.body.bio,
+    link:req.body.link,
   });
   // const validateEmail = (email) => {
   //   return String(email)
@@ -18,14 +19,16 @@ const AddUser = (req, res) => {
   //       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   //     );
   // };
-// added helper function for validating the email.
-  if (!validate(users.email)) res.status(404).json({ msg: "Enter correct Email." });
+  // added helper function for validating the email.
+  if (!validate(users.email))
+    res.status(404).json({ msg: "Enter correct Email." });
 
-// this is to check for user input before its submitted.
+  // this is to check for user input before its submitted.
   if (!users.name) res.status(404).json({ msg: "Please add name" });
   if (!users.age) res.status(404).json({ msg: "Please add age" });
   if (!users.email) res.status(404).json({ msg: "Please add email" });
   if (!users.bio) res.status(404).json({ msg: "Please add bio" });
+  if (!users.link) res.status(404).json({ msg: "Enter link" });
 
   users
     .save()
