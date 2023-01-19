@@ -32,14 +32,17 @@ const addBlog = (req, res) => {
 };
 
 // GET get all blogs
-const allBlogs = (req, res) => {
-  Blogs.find()
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const allBlogs = async (req, res) => {
+  try {
+    const blogs = await Blogs.find();
+    if (!blogs.length) {
+      res.send({ msg: "No blogs at the moment, create one here" }).status(404);
+    }
+    res.send(blogs);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ msg: "Server Error" });
+  }
 };
 
 // GET Blog by ID /get-singleBlog/:id"
@@ -85,7 +88,7 @@ const getSnippet = async (req, res) => {
     const snippet = await Blogs.find({ snippet: snippetQuery });
     // console.log(snippet)
     if (!snippet.length) {
-      res.send(`Sorry this is not here, try again`).res.status(404);
+      res.send(`Sorry ${snippetQuery} is not here, try again`).res.status(404);
     }
     res.send(snippet).status(200);
   } catch (error) {
@@ -100,6 +103,7 @@ const limitBlogs = async (req, res) => {
   try {
     let limit = req.query.limit;
     const blogs = await Blogs.find().limit(limit);
+    // console.log(blogs.length)
     res.send(blogs).status(200);
   } catch (err) {
     console.log(err.message);
@@ -123,7 +127,7 @@ const update_Blogs = async (req, res) => {
       },
       { upsert: true }
     );
-
+    
     // console.log(blogs);
     res.send(blogs).status(200);
   } catch (e) {
@@ -131,6 +135,11 @@ const update_Blogs = async (req, res) => {
     res.status(500);
   }
 };
+
+// controller for updating user info inside userController
+// write missing logic for user controllers
+// write query for getting specific user info
+// query for users to get limited number of users
 
 // db.posts.updateOne(
 //   req.params.id,
