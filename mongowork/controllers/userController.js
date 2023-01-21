@@ -11,6 +11,7 @@ const AddUser = (req, res) => {
     email: req.body.email,
     bio: req.body.bio,
     link: req.body.link,
+    likes: req.body.likes,
   });
   // const validateEmail = (email) => {
   //   return String(email)
@@ -31,6 +32,8 @@ const AddUser = (req, res) => {
   if (!users.email) res.status(404).json({ msg: "Please add email" });
   if (!users.bio) res.status(404).json({ msg: "Please add bio" });
   if (!users.link) res.status(404).json({ msg: "Enter link" });
+  if (!users.likes) res.status(404).json({ msg: "Enter likes" });
+
 
   users
     .save()
@@ -64,9 +67,14 @@ const getUserbyId = async (req, res) => {
     }
     res.send(ID);
   } catch (error) {
-    console.log(err);
+    console.log(error);
   }
+  if (!validate(users.email))
+    res.status(404).json({ msg: "Enter correct Email." });
+  if (!validateLink(users.link))
+    res.status(404).json({ msg: "Enter correct link." });
 };
+
 //removing users by ids
 
 const removeUserById = async (req, res) => {
@@ -95,22 +103,34 @@ const update_Users = async (req, res) => {
           email: req.body.email,
           bio: req.body.bio,
           link: req.body.link,
+          likes: req.body.likes,
         },
       },
       { upsert: true }
     );
 
-   // console.log(users)
-   res.send(users).status(200);
+    // console.log(users)
+    res.send(users).status(200);
   } catch (error) {
-console.log(error);
-res.status(500);
+    console.log(error);
+    res.status(500);
   }
+  if (!validate(users.email))
+    res.status(404).json({ msg: "Enter correct Email." });
+  if (!validateLink(users.link))
+    res.status(404).json({ msg: "Enter correct link." });
+
 };
 
-module.exports = { allUsers, AddUser, removeUserById, getUserbyId,update_Users };
+module.exports = {
+  allUsers,
+  AddUser,
+  removeUserById,
+  getUserbyId,
+  update_Users,
+};
 
 // controller for updating user info inside userController
 // write missing logic for user controllers
-// write query for getting specific user info
-// query for users to get limited number of users
+// write query for getting specific user info.
+// query for users to get limited number of users.

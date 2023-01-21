@@ -22,7 +22,12 @@ const userSchema = new Schema(
     link:{
       type: String,
       required: true,
+    },
+    likes:{
+      type:Number,
+      required: true,
     }
+
   },
   { timestamps: true }
 );
