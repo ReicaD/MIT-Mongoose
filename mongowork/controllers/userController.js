@@ -138,6 +138,10 @@ const update_Users = async (req, res) => {
       },
       { upsert: true }
     );
+    if (!validate(users.email))
+    res.status(404).json({ msg: "Enter correct Email." });
+  if (!validateLink(users.link))
+    res.status(404).json({ msg: "Enter correct link." });
 
     // console.log(users)
     res.send(users).status(200);
@@ -145,10 +149,7 @@ const update_Users = async (req, res) => {
     console.log(error);
     res.status(500);
   }
-  if (!validate(users.email))
-    res.status(404).json({ msg: "Enter correct Email." });
-  if (!validateLink(users.link))
-    res.status(404).json({ msg: "Enter correct link." });
+  
 };
 
 module.exports = {
