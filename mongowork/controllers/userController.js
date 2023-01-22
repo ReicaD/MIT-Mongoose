@@ -1,6 +1,8 @@
 const Users = require("../models/users");
 // this function is to import a validate helper function to be able to validate emails.
 const { validate, validateLink } = require("../helpers/helper");
+const Blogs = require("../models/blogs");
+const users = require("../models/users");
 
 //POST added a new BLOG "/add-blogs"
 
@@ -33,7 +35,6 @@ const AddUser = (req, res) => {
   if (!users.bio) res.status(404).json({ msg: "Please add bio" });
   if (!users.link) res.status(404).json({ msg: "Enter link" });
   if (!users.likes) res.status(404).json({ msg: "Enter likes" });
-
 
   users
     .save()
@@ -91,6 +92,35 @@ const removeUserById = async (req, res) => {
     res.status(500);
   }
 };
+const addLikes = async (req, res) => {
+  try {
+    let likesQuery = req.query.likes;
+    const likes = await Users.find({ likes: likesQuery });
+    //console.log(snippet)
+    if (!likes.length) {
+      res.send(`User ${likesQuery} not found`).res.status(400);
+    }
+    res.send(likes).status(200);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500);
+  }
+};
+//returning limited numebr of users (query)
+//query for users to get limited number of users.
+
+const limitUsers = async (req, res) => {
+  console.log(req.query.limitUsers);
+  try {
+    let limitUsers = req.query.limit;
+    const allUsers = await Users.find().limit(limitUsers);
+    res.send(allUsers).status(200);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500);
+  }
+};
+
 const update_Users = async (req, res) => {
   try {
     console.log(req.body);
@@ -119,7 +149,6 @@ const update_Users = async (req, res) => {
     res.status(404).json({ msg: "Enter correct Email." });
   if (!validateLink(users.link))
     res.status(404).json({ msg: "Enter correct link." });
-
 };
 
 module.exports = {
@@ -128,6 +157,8 @@ module.exports = {
   removeUserById,
   getUserbyId,
   update_Users,
+  addLikes,
+  limitUsers,
 };
 
 // controller for updating user info inside userController
